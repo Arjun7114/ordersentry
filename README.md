@@ -2,7 +2,7 @@
 
 A merchant order-risk platform: orders are ingested through a REST API, each order is scored for RTO (return-to-origin) and fraud risk by an ML service, and a React dashboard surfaces orders, risk scores, and status to the merchant.
 
-**Status:** Phase 0 — scaffolding. Building in phases; each phase is shipped working before the next begins.
+**Status:** Phase 1 complete — NestJS + TypeScript API with MongoDB Atlas, validated REST endpoints, and unit tests. Phase 2 (React dashboard) next.
 
 ## Why this exists
 
@@ -28,6 +28,30 @@ Return-to-origin (orders that come back undelivered) and fraud are real cost cen
 - [ ] Phase 1 — NestJS + TypeScript + MongoDB orders API (REST + validation + tests)
 - [ ] Phase 2 — React dashboard wired to the API
 - [ ] Phase 3 — ML risk-scoring service with an honest, reproducible eval
+
+## API endpoints (Phase 1)
+
+| Method | Route                  | Purpose                        |
+| ------ | ---------------------- | ------------------------------ |
+| POST   | `/orders`              | Create an order (validated)    |
+| GET    | `/orders`              | List all orders, newest first  |
+| GET    | `/orders/:id`          | Get a single order             |
+| PATCH  | `/orders/:id/status`   | Update an order's status       |
+
+Orders are stored in MongoDB Atlas via Mongoose. Input is validated with
+class-validator DTOs; invalid payloads are rejected with HTTP 400. The
+`riskScore` field is intentionally left `null` until the Phase 3 ML layer
+populates it.
+
+### Running locally
+
+```bash
+cd api
+npm install
+# add a .env with MONGODB_URI=... (see .env is gitignored)
+npm run start:dev
+npm test
+```
 
 ## A note on metrics
 
