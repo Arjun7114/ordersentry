@@ -5,12 +5,16 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enforces DTO validation rules on every incoming request.
+  // Allow the React dev server (localhost:5173) to call this API.
+  app.enableCors({
+    origin: 'http://localhost:5173',
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // strip any fields not declared in the DTO
-      forbidNonWhitelisted: true, // reject requests that send unknown fields
-      transform: true, // auto-convert payloads to DTO types
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
     }),
   );
 
