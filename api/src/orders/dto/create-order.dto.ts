@@ -3,26 +3,31 @@ import {
     IsNumber,
     IsOptional,
     IsString,
+    Matches,
     Min,
 } from 'class-validator';
 
-// Defines + validates the shape of data allowed when creating an order.
-// Anything failing these rules is rejected with a 400 before it hits the DB.
 export class CreateOrderDto {
     @IsString()
     @IsNotEmpty()
     customerName: string;
 
+    // Indian mobile: exactly 10 digits, starting 6-9.
     @IsString()
-    @IsNotEmpty()
+    @Matches(/^[6-9]\d{9}$/, {
+        message: 'customerPhone must be a valid 10-digit Indian mobile number',
+    })
     customerPhone: string;
 
     @IsString()
     @IsNotEmpty()
     shippingAddress: string;
 
+    // Indian pincode: exactly 6 digits, not starting with 0.
     @IsString()
-    @IsNotEmpty()
+    @Matches(/^[1-9]\d{5}$/, {
+        message: 'pincode must be a valid 6-digit Indian pincode',
+    })
     pincode: string;
 
     @IsNumber()
