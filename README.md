@@ -2,7 +2,7 @@
 
 A merchant order-risk platform: orders are ingested through a REST API, each order is scored for RTO (return-to-origin) and fraud risk by an ML service, and a React dashboard surfaces orders, risk scores, and status to the merchant.
 
-**Status:** Phase 1 complete — NestJS + TypeScript API with MongoDB Atlas, validated REST endpoints, and unit tests. Phase 2 (React dashboard) next.
+**Status:** Phase 2 complete — NestJS + MongoDB API and a React + TypeScript dashboard (view + create orders, validated end to end). Phase 3 (ML risk scoring) next.
 
 ## Why this exists
 
@@ -42,6 +42,23 @@ Orders are stored in MongoDB Atlas via Mongoose. Input is validated with
 class-validator DTOs; invalid payloads are rejected with HTTP 400. The
 `riskScore` field is intentionally left `null` until the Phase 3 ML layer
 populates it.
+
+## Dashboard (Phase 2)
+
+A React + TypeScript single-page app (Vite) that:
+
+- lists orders from the API, newest first, with color-coded status
+- ingests new orders through a form, with the backend's validation
+  errors surfaced inline
+- talks to the API over CORS, scoped to the dashboard origin
+
+### Running the dashboard
+
+```bash
+cd web
+npm install
+npm run dev   # http://localhost:5173 (API must be running on :3000)
+```
 
 ### Running locally
 
