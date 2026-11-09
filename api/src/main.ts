@@ -7,7 +7,7 @@ async function bootstrap() {
 
   // Allow the React dev server (localhost:5173) to call this API.
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173',
   });
 
   app.useGlobalPipes(

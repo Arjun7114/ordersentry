@@ -2,8 +2,7 @@
 // Keeping all backend calls here (instead of scattered fetch calls)
 // gives one typed place to change if the API shape or URL moves.
 
-const API_BASE = 'http://localhost:3000';
-
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 // Mirrors the backend's OrderStatus enum.
 export type OrderStatus =
     | 'PENDING'
